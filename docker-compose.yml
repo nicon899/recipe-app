@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  db:
+    image: mysql:5.7
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456789
+      - MYSQL_DATABASE=recipe-app-db
+      - MYSQL_USER=recipe-app-user
+      - MYSQL_PASSWORD=123456789
+    ports:
+      - 3306:3306
+  backend:
+    depends_on:
+      - db
+    image: nneubig/recipe-app:backend
+    ports:
+      - 4000:4000
+      - 9229:9229
+  frontend:
+    image: nneubig/recipe-app:frontend
+    ports:
+      - 3000:3000
